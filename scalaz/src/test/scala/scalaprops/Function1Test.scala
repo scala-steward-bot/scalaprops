@@ -4,13 +4,12 @@ import scalaz.std.anyVal.*
 import scalaz.std.function.*
 import scalaz.std.tuple.*
 
-@scalajs.js.annotation.JSExportAll
 object Function1Test extends Scalaprops {
   import FunctionEqual.*
 
-  val bindRec = scalazlaws.bindRec.laws[({ type l[a] = Byte => a })#l]
+  property("bindRec") = scalazlaws.bindRec.laws[({ type l[a] = Byte => a })#l]
 
-  val testLaws1 = {
+  property("laws1") = {
     type F1[A] = Int => A
     type F2[A] = A => Int
 
@@ -23,5 +22,5 @@ object Function1Test extends Scalaprops {
     )
   }
 
-  val testLaws2 = scalazlaws.monoid.all[Int => Int]
+  property("laws2") = scalazlaws.monoid.all[Int => Int]
 }

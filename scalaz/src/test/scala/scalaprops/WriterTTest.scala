@@ -5,11 +5,11 @@ import scalaz.*
 import scalaz.std.anyVal.*
 import scalaz.std.tuple.*
 
-@scalajs.js.annotation.JSExportAll
 object WriterTTest extends Scalaprops {
-  val bindRecIList = scalazlaws.bindRec.laws[({ type l[a] = WriterT[Byte, IList, a] })#l].andThenParam(Param.maxSize(1))
+  property("bindRecIList") =
+    scalazlaws.bindRec.laws[({ type l[a] = WriterT[Byte, IList, a] })#l].andThenParam(Param.maxSize(1))
 
-  val testMaybe1 = {
+  property("maybe1") = {
     type F[A] = WriterT[Int, Maybe, A]
 
     Properties.list(
@@ -20,13 +20,13 @@ object WriterTTest extends Scalaprops {
     )
   }
 
-  val testMaybe2 = {
+  property("maybe2") = {
     type F[A, B] = WriterT[A, Maybe, B]
 
     scalazlaws.bitraverse.all[F]
   }
 
-  val iList1 = {
+  property("iList1") = {
     type F[A] = WriterT[Int, IList, A]
 
     Properties.list(
@@ -36,7 +36,7 @@ object WriterTTest extends Scalaprops {
     )
   }
 
-  val tree = {
+  property("tree") = {
     type F[A] = WriterT[Byte, Tree, A]
 
     Properties.list(
@@ -46,7 +46,7 @@ object WriterTTest extends Scalaprops {
     )
   }
 
-  val either = {
+  property("either") = {
     type E = Byte
     type F[A] = E \/ A
     type G[A] = WriterT[Short, F, A]
@@ -59,7 +59,7 @@ object WriterTTest extends Scalaprops {
     )
   }
 
-  val id = {
+  property("id") = {
     type F[A] = Writer[Int, A]
 
     Properties.list(
@@ -71,5 +71,5 @@ object WriterTTest extends Scalaprops {
     )
   }
 
-  val monadTrans = scalazlaws.monadTrans.all[({ type l[f[_], a] = WriterT[Int, f, a] })#l]
+  property("monadTrans") = scalazlaws.monadTrans.all[({ type l[f[_], a] = WriterT[Int, f, a] })#l]
 }

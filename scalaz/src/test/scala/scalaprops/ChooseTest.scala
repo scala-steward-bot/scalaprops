@@ -3,7 +3,6 @@ package scalaprops
 import scalaz.*
 import scalaz.std.anyVal.*
 
-@scalajs.js.annotation.JSExportAll
 object ChooseTest extends Scalaprops {
   private[this] def test[A: Choose: Gen: Enum](listSize: Int = 10000) =
     Properties
@@ -33,8 +32,8 @@ object ChooseTest extends Scalaprops {
       )
       .andThenParam(Param.minSuccessful(10))
 
-  val long = test[Long](100000).andThenParam(Param.minSuccessful(3))
-  val int = test[Int]()
-  val short = test[Short]()
-  val byte = test[Byte]()
+  property("long") = test[Long](100000).andThenParam(Param.minSuccessful(3))
+  property("int") = test[Int]()
+  property("short") = test[Short]()
+  property("byte") = test[Byte]()
 }

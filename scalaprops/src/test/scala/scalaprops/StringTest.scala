@@ -2,9 +2,8 @@ package scalaprops
 
 import scalaprops.Property.forAllG
 
-@scalajs.js.annotation.JSExportAll
 object StringTest extends Scalaprops {
-  val genString = {
+  property("genString") = {
     val g = for {
       min <- Gen.choose(-10, 50)
       s <- Gen.genString(Gen.asciiChar, min)
@@ -16,5 +15,5 @@ object StringTest extends Scalaprops {
     p.toProperties("minimum length")
   }
 
-  val nonEmptyString = forAllG(Gen.nonEmptyString(Gen.asciiChar))(_.nonEmpty)
+  property("nonEmptyString") = forAllG(Gen.nonEmptyString(Gen.asciiChar))(_.nonEmpty)
 }

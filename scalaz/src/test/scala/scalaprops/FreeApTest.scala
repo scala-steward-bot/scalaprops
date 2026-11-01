@@ -5,7 +5,6 @@ import scalaz.*
 import scalaz.std.anyVal.*
 import scalaz.std.function.*
 
-@scalajs.js.annotation.JSExportAll
 object FreeApTest extends Scalaprops {
   private[this] implicit def freeApEqual[F[_]: Functor, A](implicit
     E: Eq1[F],
@@ -32,7 +31,7 @@ object FreeApTest extends Scalaprops {
       Apply[Gen].apply2(G2, freeApGen0[F, Byte => A])(FreeAp.apply[F, Byte, A](_, _))
     )
 
-  val id = {
+  property("id") = {
     type F[A] = FreeAp[Id.Id, A]
     Properties.list(
       scalazlaws.equal.all[F[Byte]],
@@ -40,7 +39,7 @@ object FreeApTest extends Scalaprops {
     )
   }
 
-  val maybe = {
+  property("maybe") = {
     type F[A] = FreeAp[Maybe, A]
     Properties.list(
       scalazlaws.equal.all[F[Byte]],
@@ -48,7 +47,7 @@ object FreeApTest extends Scalaprops {
     )
   }
 
-  val iList = {
+  property("iList") = {
     type F[A] = FreeAp[IList, A]
     Properties.list(
       scalazlaws.equal.all[F[Byte]],
@@ -56,7 +55,7 @@ object FreeApTest extends Scalaprops {
     )
   }
 
-  val nel = {
+  property("nel") = {
     type F[A] = FreeAp[NonEmptyList, A]
     Properties.list(
       scalazlaws.equal.all[F[Byte]],
@@ -64,7 +63,7 @@ object FreeApTest extends Scalaprops {
     )
   }
 
-  val disjunction = {
+  property("disjunction") = {
     type G[A] = Short \/ A
     type F[A] = FreeAp[G, A]
     Properties.list(
@@ -73,7 +72,7 @@ object FreeApTest extends Scalaprops {
     )
   }
 
-  val function1 = {
+  property("function1") = {
     type G[A] = Short => A
     type F[A] = FreeAp[G, A]
     Properties.list(
@@ -83,7 +82,7 @@ object FreeApTest extends Scalaprops {
     )
   }
 
-  val state = {
+  property("state") = {
     type G[A] = State[Short, A]
     type F[A] = FreeAp[G, A]
     Properties.list(
@@ -93,7 +92,7 @@ object FreeApTest extends Scalaprops {
     )
   }
 
-  val writer = {
+  property("writer") = {
     type G[A] = Writer[Short, A]
     type F[A] = FreeAp[G, A]
     Properties.list(
@@ -102,7 +101,7 @@ object FreeApTest extends Scalaprops {
     )
   }
 
-  val writerMaybe = {
+  property("writerMaybe") = {
     type G[A] = WriterT[Short, Maybe, A]
     type F[A] = FreeAp[G, A]
     Properties.list(
@@ -111,7 +110,7 @@ object FreeApTest extends Scalaprops {
     )
   }
 
-  val writerIList = {
+  property("writerIList") = {
     type G[A] = WriterT[Short, IList, A]
     type F[A] = FreeAp[G, A]
     Properties.list(

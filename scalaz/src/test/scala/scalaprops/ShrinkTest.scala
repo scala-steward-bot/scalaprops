@@ -5,16 +5,15 @@ import scalaz.*
 import scalaz.std.anyVal.*
 import scalaz.std.stream.*
 
-@scalajs.js.annotation.JSExportAll
 object ShrinkTest extends Scalaprops {
   private[this] implicit def equal[A: Gen: Equal]: Equal[Shrink[A]] = {
     import FunctionEqual.*
     Equal[A => Stream[A]].contramap(_.f)
   }
 
-  val law = scalazlaws.invariantFunctor.all[Shrink]
+  property("law") = scalazlaws.invariantFunctor.all[Shrink]
 
-  val int = {
+  property("int") = {
     val x = 128
 
     Property.property { (seed: Int) =>

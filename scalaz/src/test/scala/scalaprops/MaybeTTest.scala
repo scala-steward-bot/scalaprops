@@ -4,16 +4,15 @@ import ScalapropsScalaz.*
 import scalaz.*
 import scalaz.std.anyVal.*
 
-@scalajs.js.annotation.JSExportAll
 object MaybeTTest extends Scalaprops {
-  val disjunction = {
+  property("disjunction") = {
     type E = Byte
     type G[A] = E \/ A
     type F[A] = MaybeT[G, A]
     scalazlaws.monadError.all[F, E]
   }
 
-  val id = {
+  property("id") = {
     type F[A] = MaybeT[Id.Id, A]
     Properties.list(
       scalazlaws.monadPlus.all[F],
@@ -23,10 +22,10 @@ object MaybeTTest extends Scalaprops {
     )
   }
 
-  val bindRecIList =
+  property("bindRecIList") =
     scalazlaws.bindRec.laws[({ type l[a] = MaybeT[IList, a] })#l].andThenParam(Param.maxSize(1))
 
-  val testLawsIList = {
+  property("lawsIList") = {
     type F[A] = MaybeT[IList, A]
     Properties.list(
       scalazlaws.monadPlus.all[F],
@@ -35,7 +34,7 @@ object MaybeTTest extends Scalaprops {
     )
   }
 
-  val testLawsMaybe = {
+  property("lawsMaybe") = {
     type F[A] = MaybeT[Maybe, A]
     Properties.list(
       scalazlaws.monadPlus.all[F],
@@ -45,5 +44,5 @@ object MaybeTTest extends Scalaprops {
     )
   }
 
-  val monadTrans = scalazlaws.monadTrans.all[MaybeT]
+  property("monadTrans") = scalazlaws.monadTrans.all[MaybeT]
 }

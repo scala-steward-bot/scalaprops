@@ -7,7 +7,6 @@ import scalaz.std.anyVal.*
 import scalaz.std.stream.*
 import scalaz.std.vector.*
 
-@scalajs.js.annotation.JSExportAll
 object CofreeTest extends Scalaprops {
   private[this] type CofreeZip[F[_], A] = Cofree[F, A] @@ Tags.Zip
 
@@ -28,31 +27,31 @@ object CofreeTest extends Scalaprops {
     }
   }
 
-  val zipMaybe = {
+  property("zipMaybe") = {
     import CofreeGenImplicit.*
     cofreeZipTest[Maybe]
   }
 
-  val zipIList = {
+  property("zipIList") = {
     implicit def gen[A: Gen]: Gen[CofreeZip[IList, A]] =
       Tags.Zip.subst(Gen[StrictTree[A]].map(strictTreeToCofreeIList.apply))
 
     cofreeZipTest[IList]
   }
 
-  val zipValidation = {
+  property("zipValidation") = {
     import CofreeGenImplicit.*
     type F[A] = ValidationNel[Byte, A]
     cofreeZipTest[F]
   }
 
-  val zipDisjunction = {
+  property("zipDisjunction") = {
     import CofreeGenImplicit.*
     type F[A] = Byte \/ A
     cofreeZipTest[F]
   }
 
-  val testMaybe = {
+  property("maybe") = {
     implicit def genCofreeMaybe[A: Gen]: Gen[Cofree[Maybe, A]] =
       Gen[OneAnd[List, A]].map { list =>
         Cofree.unfold(list) {
@@ -82,7 +81,7 @@ object CofreeTest extends Scalaprops {
         Cofree(tree.rootLabel, Foldable[EphemeralStream].toStream(tree.subForest.map(self.apply)))
     }
 
-  val stream = {
+  property("stream") = {
     implicit def gen[A: Gen]: Gen[CofreeStream[A]] =
       Gen[Tree[A]].map(treeToCofreeStream(_))
 
@@ -94,7 +93,7 @@ object CofreeTest extends Scalaprops {
     )
   }
 
-  val disjunction = {
+  property("disjunction") = {
     type E[A] = Byte \/ A
     type F[A] = Cofree[E, A]
 
@@ -108,7 +107,7 @@ object CofreeTest extends Scalaprops {
     )
   }
 
-  val validation = {
+  property("validation") = {
     type E[A] = ValidationNel[Byte, A]
     type F[A] = Cofree[E, A]
 

@@ -4,9 +4,8 @@ import ScalapropsScalaz.*
 import scalaz.*
 import scalaz.std.anyVal.*
 
-@scalajs.js.annotation.JSExportAll
 object CoproductTest extends Scalaprops {
-  val testCoproductNelNel = {
+  property("coproductNelNel") = {
     type F[A] = Coproduct[NonEmptyList, NonEmptyList, A]
 
     Properties.list(
@@ -16,7 +15,7 @@ object CoproductTest extends Scalaprops {
     )
   }
 
-  val testCoproductIListMaybe = {
+  property("coproductIListMaybe") = {
     type F[A] = Coproduct[IList, Maybe, A]
 
     Properties.list(

@@ -4,9 +4,8 @@ import ScalapropsScalaz.*
 import scalaz.Id.Id
 import scalaz.std.anyVal.*
 
-@scalajs.js.annotation.JSExportAll
 object IdTest extends Scalaprops {
-  val test = Properties.list(
+  property("test") = Properties.list(
     scalazlaws.traverse1.all[Id],
     scalazlaws.monad.all[Id],
     scalazlaws.bindRec.all[Id],
